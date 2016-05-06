@@ -10,6 +10,7 @@ public class ScoringGameImpl implements ScoringGame {
 	final List<Integer> scoreCardList = new ArrayList<Integer>();
 
 	boolean isNewFrame = true;
+	int framesCount = 0;
 
 	/**
 	 * Overridden method, that populates score card (in this case represented as
@@ -26,7 +27,6 @@ public class ScoringGameImpl implements ScoringGame {
 		validate(numberOfPinsKnockedOff);
 
 		scoreCardList.add(numberOfPinsKnockedOff);
-		// System.out.println(scoreCardList);
 
 	}
 
@@ -34,31 +34,49 @@ public class ScoringGameImpl implements ScoringGame {
 	 * Method validates if the entered knocked down pins count is making sense
 	 * in the score card or not
 	 * 
-	 * @param
+	 * @param numberOfPinsKnocked - Current knocked pins count about to be added
 	 * 
 	 * @throws BowlingScoreException
 	 *             - When the entered value is not making sense in the score
 	 *             card
 	 */
-	private void validate(int numberOfPinsKnockedOff) throws BowlingScoreException {
-		if (numberOfPinsKnockedOff > ScoringGame.MAX_PINS_PER_FRAME || numberOfPinsKnockedOff < 0) {
+	private void validate(int numberOfPinsKnocked) throws BowlingScoreException {
+		// System.out.println(scoreCardList);
+		//System.out.println("FRAMES COUNT : validate() Method " + framesCount);
+		if (numberOfPinsKnocked > ScoringGame.MAX_PINS_PER_FRAME || numberOfPinsKnocked < 0) {
 			throw new BowlingScoreException("Incorrect, Single Knocked Pins Value");
 		}
-
-		if (isStrike(numberOfPinsKnockedOff)) {
-			isNewFrame = true;
-		} else {
-			if (isNewFrame) {
-				isNewFrame = false;
-			} else {
-				if ((scoreCardList.get(scoreCardList.size() - 1)
-						+ numberOfPinsKnockedOff) > ScoringGame.MAX_PINS_PER_FRAME) {
-					throw new BowlingScoreException("Incorrect Pins Count on Combining Two Rolls");
-
+		if (framesCount < MAX_FRAMES_PER_GAME) {// for tenth there is no check needed for the values
+			final int lastIndex = scoreCardList.size() - 1;
+			if (lastIndex == -1) {// That means this is the first item
+				framesCount++;
+				if (isStrike(numberOfPinsKnocked)) {
+					isNewFrame = true;
+				} else {
+					isNewFrame = false;
 				}
-				isNewFrame = true;
+			} else {
+				if (isStrike(numberOfPinsKnocked)) {
+					if(!isNewFrame){//Something is wrong
+						throw new BowlingScoreException("Incorrect Pins Count on Combining Two Rolls");
+					}
+					framesCount++;
+					isNewFrame = true;
+				} else {
+					if (isNewFrame) {
+						isNewFrame = false;
+					} else {
+
+						if (scoreCardList.get(lastIndex) + numberOfPinsKnocked > MAX_PINS_PER_FRAME) {
+							throw new BowlingScoreException("Incorrect Pins Count on Combining Two Rolls");
+						}
+						framesCount++;
+						isNewFrame = true;
+					}
+				}
 			}
 		}
+
 	}
 
 	/**
@@ -69,62 +87,48 @@ public class ScoringGameImpl implements ScoringGame {
 	@Override
 	public int score() {
 		int totalScore = 0;
+
 		int index = 0;
 		for (int i = 0; i < ScoringGame.MAX_FRAMES_PER_GAME; i++) {
-
-			int perGameScore = 0;// FOr display purpose more than anything
+			int currentFrameScore = 0;
 			if (isTenthFrame(i)) {
-				if (isStrike(scoreCardList.get(index))) {
-					System.out.println("FRAME - " + (i + 1) + "##STRIKE##");
-					perGameScore = addScore(index, perGameScore);
-					++index;// Read next extra 2 roll's score for strike
-					perGameScore += ((scoreCardList.get(index)// extra roll1
-							+ scoreCardList.get(++index)));// extra roll2
-				} else if (isSpare(index)) {
-					System.out.println("FRAME - " + (i + 1) + "##SPARE##");
-					perGameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
-					index++;// Next extra roll's score for Spare
-					perGameScore = addScore(index, perGameScore);// extra roll1
+				System.out.println("TENTH FRAME ###");
+				if (isStrike(scoreCardList.get(index)) || isSpare(index)) {
+					currentFrameScore += calculateStrikeScore(index);
 				} else {
-					System.out.println("FRAME - " + (i + 1) + "##NONE##");
-					perGameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
+					currentFrameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
 				}
+				totalScore += currentFrameScore;
+				System.out.println("FRAME # " + (i + 1) + " [" + currentFrameScore + "]");
+
 			} else {
-				// If Strike - next two are points of the same frames
 				if (isStrike(scoreCardList.get(index))) {
-					System.out.println("FRAME - " + (i + 1) + "##STRIKE##");
-					perGameScore = addScore(index, perGameScore);
-					++index;// Read the next roll for the strike
-					perGameScore += (isStrike(scoreCardList.get(index))) ? (2 * (scoreCardList.get(index)))
-							: (2 * (scoreCardList.get(index) + scoreCardList.get(++index)));
+					currentFrameScore += calculateStrikeScore(index);
+					// index++;// To next frame
+					// continue;
 				} else if (isSpare(index)) {
-					System.out.println("FRAME - " + (i + 1) + "##Spare##");
-					perGameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
-					++index;
-					// 5,5|10 (5+5+10 + 10) 5,5|4,5 (5+5+4 + 5+4)
-					perGameScore += ((isStrike(scoreCardList.get(index))) ? (2 * (scoreCardList.get(index)))
-							: (scoreCardList.get(index) + (scoreCardList.get(index) + scoreCardList.get(++index))));
-				} else {// No Strike, No Spare
-					System.out.println("FRAME - " + (i + 1) + "##None##");
-					perGameScore = (scoreCardList.get(index) + scoreCardList.get(++index));
+					currentFrameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
+					currentFrameScore += scoreCardList.get(index + 1);
+					// index++;// To next frame
+					// continue;
+				} else {
+					currentFrameScore += (scoreCardList.get(index) + scoreCardList.get(++index));
+					// index++;// To next frame
+					// continue;
+
 				}
-				index++;
+				totalScore += currentFrameScore;
+				index++;// To Next Frame
+				System.out.println("FRAME # " + (i + 1) + " [" + currentFrameScore + "]");
 			}
-			totalScore = (totalScore + perGameScore);
-			System.out.println("Score - " + perGameScore);
+
 		}
 		return totalScore;
 	}
 
-	/**
-	 * Method to add score and the indexed 
-	 * 
-	 * @param index
-	 * @param perGameScore
-	 * @return
-	 */
-	private int addScore(final int index, final int perGameScore) {
-		return perGameScore + scoreCardList.get(index);
+	private int calculateStrikeScore(int index) {
+		return scoreCardList.get(index) + scoreCardList.get(index + 1)
+				+ scoreCardList.get(index + 2);
 	}
 
 	/**

@@ -9,122 +9,179 @@ import com.pradeep.bowl.score.exception.BowlingScoreException;
  */
 public class ScoringGameMainTest {
 	public static void main(String[] args) {
-		
 		final ScoringGame game = new ScoringGameImpl();
-		testStrikeSpareFewKnocksCombo(game);
+		testMixOfFewKnocksStrikeAndSpare(game);
 		
 		final ScoringGame game1 = new ScoringGameImpl();
-		testAllRollStrikeAndExtraRollStrike(game1);
+		testZeroScore(game1);
 		
 		final ScoringGame game2 = new ScoringGameImpl();
-		testAllRollSpareAndExtraRollNot(game2);
+		testAllStrike(game2);
 		
 		final ScoringGame game3 = new ScoringGameImpl();
-		testNoRollsStrikeOrSpare(game3);
+		testAllSpare(game3);
 		
 		final ScoringGame game4 = new ScoringGameImpl();
-		testAllRollsKnockZero(game4);
+		testNoStrikeAndNoSpare(game4);
 		
+		final ScoringGame game5 = new ScoringGameImpl();
+		testTenthStrike(game5);
+		
+		final ScoringGame game6 = new ScoringGameImpl();
+		testTenthSpare(game6);
 	}
-
-	static boolean testStrikeSpareFewKnocksCombo(ScoringGame game) {
-		try{ 
-			game.roll(10);game.roll(10);
-			
-			game.roll(5);game.roll(4);
-			
-			game.roll(5);game.roll(5); game.roll(5);game.roll(4);
-			
-			game.roll(3);game.roll(4);
-			
-			game.roll(4);game.roll(5);
-			
-			game.roll(6);game.roll(3);
-			
-			game.roll(5);game.roll(5); game.roll(3);game.roll(5);
-			
-			game.roll(2);game.roll(2);
-			
-			game.roll(10);game.roll(5);game.roll(2);
-			
-			game.roll(4);game.roll(6);game.roll(5);game.roll(0);
-			
-			System.out.println("testStrikeSpareFewKnocksCombo : ["+game.score()+"]") ;
-		}catch (BowlingScoreException be){
-			be.printStackTrace();
-		}
-		return true;
-	}
-
-	static boolean testAllRollStrikeAndExtraRollStrike(ScoringGame game) {
-			try{
-			int i=1;
-			while (i++ <= ScoringGame.MAX_FRAMES_PER_GAME) {
-				game.roll(10);game.roll(10);
-			}
-			game.roll(10);//Since all the rolls are strike, the last one will have three entries
-			System.out.println("testAllRollStrikeAndExtraRollStrike : ["+game.score()+"]") ;
-		}catch (BowlingScoreException be){
-			be.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-
-	static boolean testAllRollSpareAndExtraRollNot(ScoringGame game) {
+	static public void testMixOfFewKnocksStrikeAndSpare(ScoringGame game) {
 		try {
-			game.roll(6);game.roll(4);game.roll(5);game.roll(4);
-			game.roll(3);game.roll(7);game.roll(5);game.roll(4);
-			game.roll(2);game.roll(8);game.roll(5);game.roll(1);
-			game.roll(9);game.roll(1);game.roll(5);game.roll(4);
-			game.roll(1);game.roll(9);game.roll(5);game.roll(4);
-			game.roll(5);game.roll(5);game.roll(5);game.roll(4);
-			game.roll(6);game.roll(4);game.roll(5);game.roll(4);
-			game.roll(5);game.roll(5);game.roll(5);game.roll(4);
-			game.roll(4);game.roll(6);game.roll(5);game.roll(4);
-			game.roll(7);game.roll(3);game.roll(5);game.roll(4);
-			System.out.println("testAllRollSpareAndExtraRollNot : ["+game.score()+"]") ;
-		}catch (BowlingScoreException be){
-			be.printStackTrace();
-			return false;
-		}	
-		return true;
-	}
-
-	static boolean testNoRollsStrikeOrSpare(ScoringGame game) {
-
-		try {
-			game.roll(5);game.roll(3);
-			game.roll(4);game.roll(2);
-			game.roll(5);game.roll(3);
-			game.roll(1);game.roll(3);
 			game.roll(2);game.roll(3);
-			game.roll(8);game.roll(1);
-			game.roll(2);game.roll(3);
-			game.roll(7);game.roll(2);
-			game.roll(3);game.roll(3);
-			game.roll(5);game.roll(3);
-			System.out.println("testNoRollsStrikeOrSpare : ["+game.score()+"]") ;
-		}catch (BowlingScoreException be){
-			be.printStackTrace();
-			return false;
-		}
-		return true;
-
-	}
-	//All 0,0
-	static boolean testAllRollsKnockZero(ScoringGame game) {
-		try {
-			int i=1;
+			game.roll(0);game.roll(0);
+			game.roll(5);game.roll(5);
+			game.roll(10);
+			game.roll(10);
+			game.roll(5);game.roll(5);
+			game.roll(10);
+			game.roll(4);game.roll(6);
+			game.roll(2);game.roll(0);
+			game.roll(2);game.roll(7);
+			System.out.println("testMixOfFewKnocksStrikeAndSpare Score ["+game.score()+"]");
 			
-			while (i++ <= ScoringGame.MAX_FRAMES_PER_GAME) {
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	static public void testZeroScore(ScoringGame game) {
+		try {
+			for (int i = 0; i < ScoringGame.MAX_FRAMES_PER_GAME; i++) {
 				game.roll(0);game.roll(0);
 			}
-			System.out.println("testAllRollsKnockZero : ["+game.score()+"]") ;
-		}catch (BowlingScoreException be){
+			System.out.println("testZeroScore Score ["+game.score()+"]");
+
+		} catch (BowlingScoreException be) {
 			be.printStackTrace();
-			return false;
 		}
-		return true;
 	}
+	
+	
+	static public void testAllStrike(ScoringGame game) {
+		try {
+			for (int i = 0; i < ScoringGame.MAX_FRAMES_PER_GAME; i++) {
+				game.roll(10);
+			}
+			game.roll(10);game.roll(10);
+			System.out.println("testAllStrike Score ["+game.score()+"]");
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	static public void testAllSpare(ScoringGame game) {
+		try {
+			game.roll(1);game.roll(9);
+			game.roll(2);game.roll(8);
+			game.roll(3);game.roll(7);
+			game.roll(7);game.roll(3);
+			game.roll(4);game.roll(6);
+			game.roll(5);game.roll(5);
+			game.roll(6);game.roll(4);
+			game.roll(7);game.roll(3);
+			game.roll(8);game.roll(2);
+			game.roll(9);game.roll(1);
+			game.roll(9);
+			
+			System.out.println("testAllSpare Score ["+game.score()+"]");
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	static public void testNoStrikeAndNoSpare(ScoringGame game) {
+		try {
+			game.roll(1);game.roll(8);
+			game.roll(2);game.roll(7);
+			game.roll(3);game.roll(5);
+			game.roll(7);game.roll(2);
+			game.roll(4);game.roll(2);
+			game.roll(5);game.roll(1);
+			game.roll(6);game.roll(1);
+			game.roll(7);game.roll(2);
+			game.roll(2);game.roll(2);
+			game.roll(2);game.roll(1);
+			
+			System.out.println("testNoStrikeAndNoSpare Score ["+game.score()+"]");
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	static public void testTenthStrike(ScoringGame game) {
+		try {
+			game.roll(1);game.roll(8);
+			game.roll(2);game.roll(7);
+			game.roll(3);game.roll(5);
+			game.roll(7);game.roll(2);
+			game.roll(4);game.roll(2);
+			game.roll(5);game.roll(1);
+			game.roll(6);game.roll(1);
+			game.roll(7);game.roll(2);
+			game.roll(2);game.roll(2);
+			game.roll(10);
+			game.roll(4);game.roll(7);//BONUS ROLLS
+			
+			System.out.println("testTenthStrike Score ["+game.score()+"]");
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	
+	static public void testTenthSpare(ScoringGame game) {
+		try {
+			game.roll(1);game.roll(8);
+			game.roll(2);game.roll(7);
+			game.roll(3);game.roll(5);
+			game.roll(7);game.roll(2);
+			game.roll(4);game.roll(2);
+			game.roll(5);game.roll(1);
+			game.roll(6);game.roll(1);
+			game.roll(7);game.roll(2);
+			game.roll(2);game.roll(2);
+			game.roll(5);game.roll(5);
+			game.roll(4);//BONUS ROLL 
+			
+			System.out.println("testTenthSpare Score ["+game.score()+"]");
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	/*
+	public void testIncorrectSingleValueToScoreCard(ScoringGame game) {
+		try {
+			game.roll(-1);
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	
+	
+	public void testIncorrectComboValueToScoreCard(ScoringGame game) {
+		try {
+			game.roll(1);game.roll(9);
+			game.roll(1);game.roll(10);
+			
+		} catch (BowlingScoreException be) {
+			be.printStackTrace();
+		}
+	}
+	*/
 }
