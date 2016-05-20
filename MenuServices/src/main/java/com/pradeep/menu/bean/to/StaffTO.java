@@ -23,4 +23,14 @@ public class StaffTO extends UserTO {
 	public void setUserType(String userType) {
 		super.setUserType("STAFF");
 	}
+	@Override
+	public String toString() {
+		return "StaffTO [getId()=" + getId() + ", getFirstName()=" + getFirstName() + ", getLastName()=" + getLastName()
+				+ ", getMiddleName()=" + getMiddleName() + ", getDob()=" + getDob() + ", getMobileNumber()="
+				+ getMobileNumber() + ", isActive()=" + isActive() + ", getSex()=" + getSex() + ", getUserType()="
+				+ getUserType() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
+	
+	
 }

@@ -47,6 +47,7 @@ public class User {
 	private String lastName;
 	private String middleName;
 	private Date dob;
+	private Date createdDate;
 	private String mobileNumber;
 	private boolean isActive;
 	private char sex;
@@ -134,6 +135,14 @@ public class User {
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }

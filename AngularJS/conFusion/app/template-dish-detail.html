@@ -1,0 +1,97 @@
+
+    <div class="container">
+        <div class="row row-content" ng-controller="dishDetailController as dishDtlCtrl">
+            <!--<div class="media-left media-middle">
+				<a href="#">
+					<img class="media-object img-thumbnail" ng-src={{dish.image}} alt="Uthappizza">
+				</a>
+			</div>-->
+
+			<div class="col-xs-12">
+                <div class="media-left media-middle">
+					<a href="#">
+						<img class="media-object img-thumbnail" ng-src={{dishDtlCtrl.dish.image}} alt="Uthappizza">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">Middle aligned media</h4>
+					<p>{{dishDtlCtrl.dish.description}}</p>
+				</div>
+				
+            </div>
+            <div class="col-xs-9 col-xs-offset-1">
+				<p>Type your comment: <input type="text" ng-model="orderByString"></p>
+                <ul class="media-list tab-pane fade in active">
+					<li class="media" ng-repeat="comment in dishDtlCtrl.dish.comments | orderBy:orderByString">
+						<blockquote>
+							<div class="media-body">
+								 <span>{{comment.comment}}</span>
+							</div>
+							<div>
+								 <span>{{dish.description}}</span>
+								 <span class="badge">{{comment.rating}}</span>
+								 <footer>{{comment.author}}</footer> 
+								 <footer>{{comment.date | date:'short' }}</footer> 								 
+							</div>
+						</blockquote>
+					</li>
+				</ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script>
+
+        var app = angular.module('confusionApp',[]);
+        
+        app.controller('dishDetailController', function() {
+
+            var dish={
+                          name:'Uthapizza',
+                          image: 'images/uthapizza.png',
+                          category: 'mains', 
+                          label:'Hot',
+                          price:'4.99',
+                          description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.',
+                           comments: [
+                               {
+                                   rating:5,
+                                   comment:"Imagine all the eatables, living in conFusion!",
+                                   author:"John Lemon",
+                                   date:"2012-10-16T17:57:28.556094Z"
+                               },
+                               {
+                                   rating:4,
+                                   comment:"Sends anyone to heaven, I wish I could get my mother-in-law to eat it!",
+                                   author:"Paul McVites",
+                                   date:"2014-09-05T17:57:28.556094Z"
+                               },
+                               {
+                                   rating:3,
+                                   comment:"Eat it, just eat it!",
+                                   author:"Michael Jaikishan",
+                                   date:"2015-02-13T17:57:28.556094Z"
+                               },
+                               {
+                                   rating:4,
+                                   comment:"Ultimate, Reaching for the stars!",
+                                   author:"Ringo Starry",
+                                   date:"2013-12-02T17:57:28.556094Z"
+                               },
+                               {
+                                   rating:2,
+                                   comment:"It's your birthday, we're gonna party!",
+                                   author:"25 Cent",
+                                   date:"2011-12-02T17:57:28.556094Z"
+                               }
+                               
+                           ]
+                    };
+            
+            this.dish = dish;
+            
+        });
+
+    </script>

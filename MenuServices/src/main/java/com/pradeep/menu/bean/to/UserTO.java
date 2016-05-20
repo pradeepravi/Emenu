@@ -19,6 +19,7 @@ public class UserTO implements Serializable {
 	private String lastName;
 	private String middleName;
 	private Date dob;
+	private Date createdDate;
 	private String mobileNumber;
 	private boolean isActive;
 	private char sex;
@@ -109,6 +110,21 @@ public class UserTO implements Serializable {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "UserTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName
+				+ ", dob=" + dob + ", mobileNumber=" + mobileNumber + ", isActive=" + isActive + ", sex=" + sex
+				+ ", userType=" + userType + "]";
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	
