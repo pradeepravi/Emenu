@@ -1,8 +1,8 @@
-package com.pradeep.menu.dao;
+package com.pradeep.menu.dao.user;
 
 import java.util.List;
 
-import com.pradeep.menu.bean.orm.UserType;
+import com.pradeep.menu.bean.entity.UserType;
 
 public interface UserTypeDAO {
 	public boolean save(UserType user);

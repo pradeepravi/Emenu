@@ -1,12 +1,12 @@
-package com.pradeep.menu.dao.impl;
+package com.pradeep.menu.dao.user.impl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
-import com.pradeep.menu.bean.orm.UserType;
-import com.pradeep.menu.dao.UserTypeDAO;
+import com.pradeep.menu.bean.entity.UserType;
+import com.pradeep.menu.dao.user.UserTypeDAO;
 import com.pradeep.menu.util.hibernate.HibernateUtil;
 
 @Component("userTypeDAOImpl")

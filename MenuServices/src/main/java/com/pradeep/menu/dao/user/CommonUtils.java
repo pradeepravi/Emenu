@@ -1,4 +1,4 @@
-package com.pradeep.menu.dao;
+package com.pradeep.menu.dao.user;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommonUtils {
 	/**
-	 * Pass Date in yyyy/mm/dd format and get the Java Util Date object
+	 * Pass Date in dd/mm/yyyy format and get the Java Util Date object
 	 * @param date
 	 * @return
 	 */
@@ -17,7 +17,7 @@ public class CommonUtils {
 		    java.util.Date utilDate = null;
 
 		    try {
-		      SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		      SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		      utilDate = formatter.parse(date);
 		      System.out.println("utilDate:" + utilDate);
 		    } catch (ParseException e) {

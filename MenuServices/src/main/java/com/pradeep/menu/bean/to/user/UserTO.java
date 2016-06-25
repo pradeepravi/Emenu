@@ -1,4 +1,4 @@
-package com.pradeep.menu.bean.to;
+package com.pradeep.menu.bean.to.user;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +21,7 @@ public class UserTO implements Serializable {
 	private Date dob;
 	private Date createdDate;
 	private String mobileNumber;
+	private String email;
 	private boolean isActive;
 	private char sex;
 	private String userType;
@@ -28,7 +29,7 @@ public class UserTO implements Serializable {
 	
 	
 	public UserTO( String firstName, String lastName, String middleName, Date dob, String mobileNumber,
-			boolean isActive, char sex, String userType) {
+			boolean isActive, char sex, String userType, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -38,6 +39,7 @@ public class UserTO implements Serializable {
 		this.isActive = isActive;
 		this.sex = sex;
 		this.userType = userType;
+		this.email = email;
 	}
 
 	public long getId() {
@@ -125,6 +127,14 @@ public class UserTO implements Serializable {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	

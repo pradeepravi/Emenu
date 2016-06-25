@@ -1,4 +1,4 @@
-package com.pradeep.menu.bean.to;
+package com.pradeep.menu.bean.to.user;
 
 import java.util.Date;
 
@@ -14,8 +14,8 @@ public class StaffTO extends UserTO {
 		super();
 	}
 	public StaffTO(String firstName, String lastName, String middleName, Date dob, String mobileNumber,
-			boolean isActive, char sex, String userType) {
-		super( firstName, lastName, middleName, dob, mobileNumber, isActive, sex, userType);
+			boolean isActive, char sex, String userType, String email) {
+		super( firstName, lastName, middleName, dob, mobileNumber, isActive, sex, userType,email);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -1,4 +1,4 @@
-package com.pradeep.menu.bean.orm;
+package com.pradeep.menu.bean.entity;
 
 import java.util.Date;
 

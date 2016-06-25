@@ -1,13 +1,13 @@
-package com.pradeep.menu.dao;
+package com.pradeep.menu.dao.user;
 
 import java.util.List;
 
-import com.pradeep.menu.bean.orm.User;
+import com.pradeep.menu.bean.entity.User;
 
 public interface UserDAO {
-	public boolean save(User user);
+	public User save(User user);
 
-	public boolean update(User user);
+	public User update(User user);
 
 	public boolean delete(User user);
 

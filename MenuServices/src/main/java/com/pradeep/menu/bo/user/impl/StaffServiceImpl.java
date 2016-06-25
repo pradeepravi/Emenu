@@ -1,24 +1,24 @@
-package com.pradeep.menu.user.staff.bo.impl;
+package com.pradeep.menu.bo.user.impl;
 
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.pradeep.menu.bean.orm.User;
-import com.pradeep.menu.bean.to.StaffTO;
-import com.pradeep.menu.dao.impl.UserDAOImpl;
-import com.pradeep.menu.dao.impl.UserTypeDAOImpl;
-import com.pradeep.menu.user.staff.bo.StaffService;
+import com.pradeep.menu.bean.entity.User;
+import com.pradeep.menu.bean.to.user.StaffTO;
+import com.pradeep.menu.bo.user.StaffService;
+import com.pradeep.menu.dao.user.impl.UserDAOImpl;
+import com.pradeep.menu.dao.user.impl.UserTypeDAOImpl;
 
 @Component("staffServiceImpl")
 public class StaffServiceImpl implements StaffService {
+	final Logger log = LogManager.getLogger(StaffServiceImpl.class);
 
-	final Logger log = LoggerFactory.getLogger(StaffServiceImpl.class);
-	
 	@Autowired
 	UserDAOImpl userDAO;
 
@@ -36,8 +36,8 @@ public class StaffServiceImpl implements StaffService {
 	public boolean save(StaffTO staff) {
 		log.debug("StaffServiceImpl : SAVE");
 		User user = this.getPopulatedUser(staff);
-		boolean flag = userDAO.save(user);
-		return flag;
+		user = userDAO.save(user);
+		return true;
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class StaffServiceImpl implements StaffService {
 		log.debug("StaffServiceImpl : UPDATE");
 
 		User user = this.getPopulatedUser(staff);
-		boolean flag = userDAO.update(user);
-		return flag;
+		user = userDAO.update(user);
+		return true;
 
 	}
 
@@ -72,6 +72,7 @@ public class StaffServiceImpl implements StaffService {
 			staff.setMiddleName(user.getMiddleName());
 			staff.setMobileNumber(user.getMobileNumber());
 			staff.setSex(user.getSex());
+			staff.setEmail(user.getEmail());
 			staff.setDob(user.getDob());
 			staff.setCreatedDate(user.getCreatedDate());
 			staff.setUserType(user.getUserType().getType());
@@ -94,8 +95,10 @@ public class StaffServiceImpl implements StaffService {
 			user.setMobileNumber(staff.getMobileNumber());
 			user.setSex(staff.getSex());
 			user.setDob(staff.getDob());
-			user.setCreatedDate(staff.getCreatedDate());
+			user.setCreatedDate(new GregorianCalendar().getTime());// Todays
+																	// date
 			user.setUserType(userTypeDAO.getUserType(staff.getUserType()));
+			user.setEmail(staff.getEmail());
 		}
 
 		return user;
@@ -106,15 +109,14 @@ public class StaffServiceImpl implements StaffService {
 		log.debug("StaffServiceImpl : fetchAllStaff");
 		final List<User> users = userDAO.getAllUsers();
 
-		List<StaffTO> staffs = new LinkedList<StaffTO>(); 
-		for(User user : users){
+		List<StaffTO> staffs = new LinkedList<StaffTO>();
+		for (User user : users) {
 			StaffTO staff = getPopulatedStaffTO(user);
 			staffs.add(staff);
 		}
-		
-		
-		log.debug("StaffServiceImpl : fetchAllStaff : LIST ["+staffs+"]");
- 		
+
+		log.debug("StaffServiceImpl : fetchAllStaff : LIST [" + staffs + "]");
+
 		return staffs;
 	}
 

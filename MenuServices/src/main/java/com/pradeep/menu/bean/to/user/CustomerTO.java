@@ -1,4 +1,4 @@
-package com.pradeep.menu.bean.to;
+package com.pradeep.menu.bean.to.user;
 
 public class CustomerTO extends UserTO {
 

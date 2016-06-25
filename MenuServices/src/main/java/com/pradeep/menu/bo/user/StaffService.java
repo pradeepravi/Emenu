@@ -1,10 +1,10 @@
-package com.pradeep.menu.user.staff.bo;
+package com.pradeep.menu.bo.user;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.pradeep.menu.bean.to.StaffTO;
+import com.pradeep.menu.bean.to.user.StaffTO;
 
 @Component("staffService")
 public interface StaffService {

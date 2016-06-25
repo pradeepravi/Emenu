@@ -1,5 +1,6 @@
-package com.pradeep.menu.bean.orm;
+package com.pradeep.menu.bean.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,29 +14,29 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
-public class User {
-	/*
-	 * `user_id` int(11) NOT NULL, `user_type_id` int(11) NOT NULL, `first_name`
-	 * varchar(45) NOT NULL, `last_name` varchar(45) NOT NULL, `middle_name`
-	 * varchar(45) DEFAULT NULL, `dob` datetime NOT NULL, `mobile_number`
-	 * varchar(15) DEFAULT NULL, `status_flag` char(1) NOT NULL DEFAULT 'Y',
-	 * `sex` char(1) NOT NULL,
+public class User implements Serializable{
+	/**
+	 * 
 	 */
+	private static final long serialVersionUID = 14321432L;
+
 	public User() {
 
 	}
 
-	public User(String firstName, String lastName, String middleName, Date dob, String mobileNumber, boolean isActive,
-			char sex, UserType usertType) {
+	public User(String firstName, String lastName, String middleName, Date dob, Date createdDate,
+			String mobileNumber, String email, boolean isActive, char sex, UserType userType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.middleName = middleName;
 		this.dob = dob;
+		this.createdDate = createdDate;
 		this.mobileNumber = mobileNumber;
+		this.email = email;
 		this.isActive = isActive;
 		this.sex = sex;
-		this.userType = usertType;
+		this.userType = userType;
 	}
 
 	public User(long userID) {
@@ -49,6 +50,7 @@ public class User {
 	private Date dob;
 	private Date createdDate;
 	private String mobileNumber;
+	private String email;
 	private boolean isActive;
 	private char sex;
 	private UserType userType;
@@ -137,12 +139,29 @@ public class User {
 		this.userType = userType;
 	}
 
+	@Column(name = "created_date")
 	public Date getCreatedDate() {
 		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	@Column(name = "email")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName
+				+ ", dob=" + dob + ", createdDate=" + createdDate + ", mobileNumber=" + mobileNumber + ", email="
+				+ email + ", isActive=" + isActive + ", sex=" + sex + ", userType=" + userType + "]";
 	}
 
 }
