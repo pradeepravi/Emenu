@@ -8,7 +8,7 @@
 </head>
 <body>
 	<p><a href="./springMVCSkillShow" >Spring MVC</a></p>
-	<p><a href="./angularJSSkillShow" >Angular JS Skill Show</a></p>
+	<p><a href="./ajsLogin" >Angular JS Skill Show</a></p>
 	
 </body>
 </html>

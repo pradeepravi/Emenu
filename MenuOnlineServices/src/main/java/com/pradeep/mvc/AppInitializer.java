@@ -2,13 +2,13 @@ package com.pradeep.mvc;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.pradeep.config.AppConfiguration;
+import com.pradeep.config.ServletConfiguration;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfiguration.class };
+        return new Class[] { ServletConfiguration.class };
     }
   
     @Override
